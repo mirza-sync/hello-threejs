@@ -10,9 +10,10 @@ const renderer = new THREE.WebGLRenderer({ antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement)
 
-const geometry = new THREE.BoxGeometry(1, 1, 1)
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+const geometry = new THREE.BoxGeometry(3, 3, 3)
+const material = new THREE.MeshStandardMaterial({ color: 0x00ff00, flatShading: true })
 const cube = new THREE.Mesh(geometry, material)
+cube.position.set(0, 3, 0)
 scene.add(cube)
 
 const points = []
@@ -20,12 +21,19 @@ points.push(new THREE.Vector3(-10, 0, 0))
 points.push(new THREE.Vector3(0, 10, 0))
 points.push(new THREE.Vector3(10, 0, 0))
 const lineGeometry = new THREE.BufferGeometry().setFromPoints(points)
-const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
+const lineMaterial = new THREE.LineBasicMaterial({ color: 0x00ff00 })
 const line = new THREE.Line(lineGeometry, lineMaterial)
 scene.add(line)
 
+const pointLight = new THREE.PointLight(0xffffff)
+pointLight.position.set(5, 5, 5)
+const ambientLight = new THREE.AmbientLight(0xffffff)
+const hemiLight = new THREE.HemisphereLight(0xffffff, 0xffffff)
+scene.add(pointLight, ambientLight, hemiLight)
+
+const lightHelper = new THREE.PointLightHelper(pointLight)
 const gridHelper = new THREE.GridHelper(200, 50)
-scene.add(gridHelper)
+scene.add(gridHelper, lightHelper)
 
 const controls = new OrbitControls(camera, renderer.domElement);
 
