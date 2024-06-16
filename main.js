@@ -1,4 +1,5 @@
 import * as THREE from 'three'
+import { OrbitControls } from 'three/examples/jsm/Addons.js';
 
 const scene = new THREE.Scene()
 const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 1, 500)
@@ -23,9 +24,15 @@ const lineMaterial = new THREE.LineBasicMaterial({ color: 0x0000ff })
 const line = new THREE.Line(lineGeometry, lineMaterial)
 scene.add(line)
 
+const gridHelper = new THREE.GridHelper(200, 50)
+scene.add(gridHelper)
+
+const controls = new OrbitControls(camera, renderer.domElement);
+
 function animate() {
   cube.rotation.x += 0.01
   cube.rotation.y += 0.01
   renderer.render(scene, camera)
+  controls.update()
 }
 renderer.setAnimationLoop(animate)
